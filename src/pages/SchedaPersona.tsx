@@ -7,7 +7,7 @@ import Pulsante, { stileLinkPulsante } from '../components/Pulsante';
 import { eliminaPagamento, impostaPersonaAttiva, sincronizzaScadenze } from '../db/repository';
 import type { MetodoPagamento, Pagamento } from '../db/tipi';
 import { useDati } from '../hooks/useDati';
-import { statoPersona, type CalcoloScadenza } from '../logic/stato';
+import { coloreMostrato, statoPersona, type CalcoloScadenza } from '../logic/stato';
 import { percorso, vai } from '../navigazione';
 import { oggiIso } from '../utils/date';
 import { dataLeggibile, descriviRegola } from '../utils/descrizioni';
@@ -55,7 +55,12 @@ export default function SchedaPersona({ id }: { id: string }) {
   const euro = (c: number) => formattaEuro(c, valuta);
   const nomePiano = new Map(piani.map((p) => [p.id, p.descrizione]));
   const dataScadenza = new Map(stato.scadenze.map((c) => [c.scadenza.id, c.scadenza.dataScadenza]));
-  const aperte = stato.scadenze.filter((c) => c.residuo > 0 && c.scadenza.dataScadenza <= oggi);
+  const mostraFuturo = !!dati.impostazioni.mostraFuturo;
+  const colore = coloreMostrato(stato.colore, mostraFuturo);
+  // senza scadenze future si vedono solo quelle in ritardo
+  const aperte = stato.scadenze.filter(
+    (c) => c.residuo > 0 && c.scadenza.dataScadenza <= oggi && (mostraFuturo || c.stato === 'inRitardo'),
+  );
 
   async function riattiva() {
     await impostaPersonaAttiva(persona.id, true);
@@ -73,7 +78,7 @@ export default function SchedaPersona({ id }: { id: string }) {
       }
     >
       <div className="-mt-1 mb-4 flex flex-wrap items-center gap-2">
-        <BadgeStato colore={stato.colore} archiviata={!persona.attivo} />
+        <BadgeStato colore={colore} archiviata={!persona.attivo} />
         {persona.categoria && <span className="text-base text-slate-600">{persona.categoria}</span>}
       </div>
 
@@ -106,22 +111,26 @@ export default function SchedaPersona({ id }: { id: string }) {
       {/* Mini-dashboard */}
       <div className="grid grid-cols-2 gap-2">
         <Riquadro etichetta="Pagato in totale" valore={euro(stato.totalePagato)} />
-        <Riquadro
-          etichetta="Da pagare ora"
-          valore={euro(stato.daPagareOra)}
-          tono={stato.daPagareOra > 0 ? (stato.colore === 'rosso' ? 'rosso' : 'giallo') : undefined}
-        />
+        {mostraFuturo && (
+          <Riquadro
+            etichetta="Da pagare ora"
+            valore={euro(stato.daPagareOra)}
+            tono={stato.daPagareOra > 0 ? (stato.colore === 'rosso' ? 'rosso' : 'giallo') : undefined}
+          />
+        )}
         <Riquadro
           etichetta="In ritardo"
           valore={euro(stato.importoInRitardo)}
           nota={stato.scadenzeInRitardo > 0 ? `da ${stato.maxGiorniRitardo} ${stato.maxGiorniRitardo === 1 ? 'giorno' : 'giorni'}` : undefined}
           tono={stato.importoInRitardo > 0 ? 'rosso' : undefined}
         />
-        <Riquadro
-          etichetta="Prossima scadenza"
-          valore={stato.prossimaScadenza ? euro(stato.prossimaScadenza.residuo) : '—'}
-          nota={stato.prossimaScadenza ? dataLeggibile(stato.prossimaScadenza.scadenza.dataScadenza) : 'nessuna'}
-        />
+        {mostraFuturo && (
+          <Riquadro
+            etichetta="Prossima scadenza"
+            valore={stato.prossimaScadenza ? euro(stato.prossimaScadenza.residuo) : '—'}
+            nota={stato.prossimaScadenza ? dataLeggibile(stato.prossimaScadenza.scadenza.dataScadenza) : 'nessuna'}
+          />
+        )}
       </div>
       {stato.credito > 0 && (
         <p className="mt-2 rounded-xl bg-green-50 p-3 text-base text-green-900">
@@ -131,7 +140,7 @@ export default function SchedaPersona({ id }: { id: string }) {
 
       {/* Scadenze da pagare */}
       {aperte.length > 0 && (
-        <Sezione titolo="Da pagare">
+        <Sezione titolo={mostraFuturo ? 'Da pagare' : 'In ritardo'}>
           <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white">
             {aperte.map((c) => (
               <RigaScadenza

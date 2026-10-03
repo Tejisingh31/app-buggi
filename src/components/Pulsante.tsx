@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes, Ref } from 'react';
 type Variante = 'primario' | 'secondario' | 'pericolo' | 'leggero';
 
 const STILI: Record<Variante, string> = {
-  primario: 'bg-[#0f766e] text-[#fff] active:brightness-90 disabled:bg-slate-300 disabled:text-slate-700',
+  primario: 'bg-(--accento) text-[#fff] active:brightness-90 disabled:bg-slate-300 disabled:text-slate-700',
   secondario: 'border border-slate-300 bg-white text-slate-800 active:bg-slate-100',
   pericolo: 'bg-[#b91c1c] text-[#fff] active:brightness-90',
   leggero: 'text-teal-700 active:bg-teal-50',

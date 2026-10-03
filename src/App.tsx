@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
+import { cartellaSupportata } from './backup/automatico';
 import Report from './backup/report';
+import { useBackupAutomatico } from './backup/useBackupAutomatico';
+import SceltaCartella from './components/SceltaCartella';
 import BarraSchede from './components/BarraSchede';
 import GestorePagamenti from './components/GestorePagamenti';
 import { aggiornaImpostazioni } from './db/repository';
@@ -27,8 +30,9 @@ export default function App() {
   const rotta = useRotta();
   const dati = useDati();
   const imp = dati?.impostazioni;
-  useTema(imp?.tema);
+  useTema(imp?.tema, imp?.accento);
   const blocco = useBlocco(imp);
+  useBackupAutomatico(!!imp);
 
   // finché non si sa se c'è un PIN non si mostra nessun dato
   if (!dati || !imp || !blocco.pronto) return <SchermoIntero>{null}</SchermoIntero>;
@@ -67,6 +71,29 @@ export default function App() {
             className="mx-auto mt-8 block min-h-11 px-4 text-base font-medium text-teal-700 underline"
           >
             Non ora (puoi impostarlo dopo in Impostazioni)
+          </button>
+        </main>
+      </SchermoIntero>
+    );
+  }
+
+  // poi, dove il browser lo permette, si chiede una volta sola dove salvare i backup automatici
+  if (!imp.cartellaProposta && imp.backupAutomatico !== false && cartellaSupportata()) {
+    return (
+      <SchermoIntero>
+        <main className="mx-auto max-w-xl px-6 py-10">
+          <h1 className="text-center text-2xl font-bold text-slate-900">Dove salvo i backup automatici?</h1>
+          <p className="mt-2 mb-8 text-center text-base text-slate-600">
+            Ogni giorno Buggi salverà da solo una copia dei dati in una cartella del computer. Ti consiglio <strong>Documenti</strong>:
+            dentro verrà creata la cartella «Buggi backup».
+          </p>
+          <SceltaCartella onFatto={() => aggiornaImpostazioni({ cartellaProposta: true })} />
+          <button
+            type="button"
+            onClick={() => aggiornaImpostazioni({ cartellaProposta: true })}
+            className="mx-auto mt-8 block min-h-11 px-4 text-base font-medium text-teal-700 underline"
+          >
+            Non ora (puoi sceglierla dopo in Impostazioni)
           </button>
         </main>
       </SchermoIntero>

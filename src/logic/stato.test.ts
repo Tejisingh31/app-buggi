@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Pagamento, Scadenza } from '../db/tipi';
-import { ripartisciPagamenti, statoPersona, statoScadenza } from './stato';
+import { coloreMostrato, ripartisciPagamenti, statoPersona, statoScadenza } from './stato';
 
 const scad = (id: string, dataScadenza: string, importoDovuto = 5000): Scadenza => ({
   id,
@@ -126,5 +126,14 @@ describe('stato di una persona', () => {
 
   it('verde anche senza scadenze', () => {
     expect(statoPersona([], [], '2026-02-20', 0)).toMatchObject({ colore: 'verde', totalePagato: 0 });
+  });
+});
+
+describe('colore mostrato', () => {
+  it('senza scadenze future: solo In regola o In ritardo', () => {
+    expect(coloreMostrato('giallo', false)).toBe('verde');
+    expect(coloreMostrato('rosso', false)).toBe('rosso');
+    expect(coloreMostrato('verde', false)).toBe('verde');
+    expect(coloreMostrato('giallo', true)).toBe('giallo');
   });
 });

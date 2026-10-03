@@ -7,7 +7,10 @@ import { applicaTema, temaSalvato } from './hooks/useTema';
 import './index.css';
 import App from './App.tsx';
 
-applicaTema(temaSalvato());
+{
+  const { tema, accento } = temaSalvato();
+  applicaTema(tema, accento);
+}
 registerSW({ immediate: true });
 void richiediSpazioPersistente();
 sincronizzaScadenze().catch((e) => console.error('Generazione scadenze non riuscita', e));

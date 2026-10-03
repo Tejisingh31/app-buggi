@@ -1,0 +1,167 @@
+/*
+ * Temi a colori: il colore principale dell'app (di base verde acqua = "teal") viene
+ * sostituito con quello scelto in Impostazioni (attributo data-accento su <html>).
+ * --accento è il colore pieno dei pulsanti (testo bianco leggibile), --accento-chiaro
+ * quello del pulsante "Annulla" sull'avviso scuro.
+ * File generato: per aggiungere un colore aggiungi una riga in PALETTE e rigenera.
+ */
+:root {
+  --accento: #0f766e;
+  --accento-chiaro: #5eead4;
+}
+
+:root[data-accento='blu'] {
+  --color-teal-50: var(--color-blue-50);
+  --color-teal-100: var(--color-blue-100);
+  --color-teal-200: var(--color-blue-200);
+  --color-teal-300: var(--color-blue-300);
+  --color-teal-400: var(--color-blue-400);
+  --color-teal-500: var(--color-blue-500);
+  --color-teal-600: var(--color-blue-600);
+  --color-teal-700: var(--color-blue-700);
+  --color-teal-800: var(--color-blue-800);
+  --color-teal-900: var(--color-blue-900);
+  --color-teal-950: var(--color-blue-950);
+  --accento: var(--color-blue-700);
+  --accento-chiaro: var(--color-blue-300);
+}
+:root.dark[data-accento='blu'] {
+  --color-teal-50: var(--color-blue-950);
+  --color-teal-100: var(--color-blue-900);
+  --color-teal-200: var(--color-blue-800);
+  --color-teal-300: var(--color-blue-700);
+  --color-teal-700: var(--color-blue-300);
+  --color-teal-800: var(--color-blue-200);
+  --color-teal-900: var(--color-blue-100);
+  --color-teal-950: var(--color-blue-50);
+}
+
+:root[data-accento='indaco'] {
+  --color-teal-50: var(--color-indigo-50);
+  --color-teal-100: var(--color-indigo-100);
+  --color-teal-200: var(--color-indigo-200);
+  --color-teal-300: var(--color-indigo-300);
+  --color-teal-400: var(--color-indigo-400);
+  --color-teal-500: var(--color-indigo-500);
+  --color-teal-600: var(--color-indigo-600);
+  --color-teal-700: var(--color-indigo-700);
+  --color-teal-800: var(--color-indigo-800);
+  --color-teal-900: var(--color-indigo-900);
+  --color-teal-950: var(--color-indigo-950);
+  --accento: var(--color-indigo-700);
+  --accento-chiaro: var(--color-indigo-300);
+}
+:root.dark[data-accento='indaco'] {
+  --color-teal-50: var(--color-indigo-950);
+  --color-teal-100: var(--color-indigo-900);
+  --color-teal-200: var(--color-indigo-800);
+  --color-teal-300: var(--color-indigo-700);
+  --color-teal-700: var(--color-indigo-300);
+  --color-teal-800: var(--color-indigo-200);
+  --color-teal-900: var(--color-indigo-100);
+  --color-teal-950: var(--color-indigo-50);
+}
+
+:root[data-accento='viola'] {
+  --color-teal-50: var(--color-violet-50);
+  --color-teal-100: var(--color-violet-100);
+  --color-teal-200: var(--color-violet-200);
+  --color-teal-300: var(--color-violet-300);
+  --color-teal-400: var(--color-violet-400);
+  --color-teal-500: var(--color-violet-500);
+  --color-teal-600: var(--color-violet-600);
+  --color-teal-700: var(--color-violet-700);
+  --color-teal-800: var(--color-violet-800);
+  --color-teal-900: var(--color-violet-900);
+  --color-teal-950: var(--color-violet-950);
+  --accento: var(--color-violet-700);
+  --accento-chiaro: var(--color-violet-300);
+}
+:root.dark[data-accento='viola'] {
+  --color-teal-50: var(--color-violet-950);
+  --color-teal-100: var(--color-violet-900);
+  --color-teal-200: var(--color-violet-800);
+  --color-teal-300: var(--color-violet-700);
+  --color-teal-700: var(--color-violet-300);
+  --color-teal-800: var(--color-violet-200);
+  --color-teal-900: var(--color-violet-100);
+  --color-teal-950: var(--color-violet-50);
+}
+
+:root[data-accento='rosa'] {
+  --color-teal-50: var(--color-pink-50);
+  --color-teal-100: var(--color-pink-100);
+  --color-teal-200: var(--color-pink-200);
+  --color-teal-300: var(--color-pink-300);
+  --color-teal-400: var(--color-pink-400);
+  --color-teal-500: var(--color-pink-500);
+  --color-teal-600: var(--color-pink-600);
+  --color-teal-700: var(--color-pink-700);
+  --color-teal-800: var(--color-pink-800);
+  --color-teal-900: var(--color-pink-900);
+  --color-teal-950: var(--color-pink-950);
+  --accento: var(--color-pink-700);
+  --accento-chiaro: var(--color-pink-300);
+}
+:root.dark[data-accento='rosa'] {
+  --color-teal-50: var(--color-pink-950);
+  --color-teal-100: var(--color-pink-900);
+  --color-teal-200: var(--color-pink-800);
+  --color-teal-300: var(--color-pink-700);
+  --color-teal-700: var(--color-pink-300);
+  --color-teal-800: var(--color-pink-200);
+  --color-teal-900: var(--color-pink-100);
+  --color-teal-950: var(--color-pink-50);
+}
+
+:root[data-accento='arancione'] {
+  --color-teal-50: var(--color-orange-50);
+  --color-teal-100: var(--color-orange-100);
+  --color-teal-200: var(--color-orange-200);
+  --color-teal-300: var(--color-orange-300);
+  --color-teal-400: var(--color-orange-400);
+  --color-teal-500: var(--color-orange-500);
+  --color-teal-600: var(--color-orange-600);
+  --color-teal-700: var(--color-orange-700);
+  --color-teal-800: var(--color-orange-800);
+  --color-teal-900: var(--color-orange-900);
+  --color-teal-950: var(--color-orange-950);
+  --accento: var(--color-orange-700);
+  --accento-chiaro: var(--color-orange-300);
+}
+:root.dark[data-accento='arancione'] {
+  --color-teal-50: var(--color-orange-950);
+  --color-teal-100: var(--color-orange-900);
+  --color-teal-200: var(--color-orange-800);
+  --color-teal-300: var(--color-orange-700);
+  --color-teal-700: var(--color-orange-300);
+  --color-teal-800: var(--color-orange-200);
+  --color-teal-900: var(--color-orange-100);
+  --color-teal-950: var(--color-orange-50);
+}
+
+:root[data-accento='grafite'] {
+  --color-teal-50: var(--color-gray-50);
+  --color-teal-100: var(--color-gray-100);
+  --color-teal-200: var(--color-gray-200);
+  --color-teal-300: var(--color-gray-300);
+  --color-teal-400: var(--color-gray-400);
+  --color-teal-500: var(--color-gray-500);
+  --color-teal-600: var(--color-gray-600);
+  --color-teal-700: var(--color-gray-700);
+  --color-teal-800: var(--color-gray-800);
+  --color-teal-900: var(--color-gray-900);
+  --color-teal-950: var(--color-gray-950);
+  --accento: var(--color-gray-700);
+  --accento-chiaro: var(--color-gray-300);
+}
+:root.dark[data-accento='grafite'] {
+  --color-teal-50: var(--color-gray-950);
+  --color-teal-100: var(--color-gray-900);
+  --color-teal-200: var(--color-gray-800);
+  --color-teal-300: var(--color-gray-700);
+  --color-teal-700: var(--color-gray-300);
+  --color-teal-800: var(--color-gray-200);
+  --color-teal-900: var(--color-gray-100);
+  --color-teal-950: var(--color-gray-50);
+}

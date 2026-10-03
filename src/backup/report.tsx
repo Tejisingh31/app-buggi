@@ -26,6 +26,7 @@ export default function Report() {
   if (!dati || !calcoli) return <Caricamento />;
 
   const euro = (c: number) => formattaEuro(c, dati.impostazioni.valuta);
+  const futuro = !!dati.impostazioni.mostraFuturo;
   const { riepilogo, ritardi, stati } = calcoli;
   const attive = dati.persone.filter((p) => p.attivo);
   const cella = 'border border-slate-300 px-2 py-1.5 text-left';
@@ -63,10 +64,12 @@ export default function Report() {
                 <th className={cella}>Incassato questo mese</th>
                 <td className={numero}>{euro(riepilogo.incassatoMese)}</td>
               </tr>
-              <tr>
-                <th className={cella}>Da incassare questo mese</th>
-                <td className={numero}>{euro(riepilogo.daIncassareMese)}</td>
-              </tr>
+              {futuro && (
+                <tr>
+                  <th className={cella}>Da incassare questo mese</th>
+                  <td className={numero}>{euro(riepilogo.daIncassareMese)}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </section>
@@ -109,9 +112,9 @@ export default function Report() {
                 <tr>
                   <th className={cella}>Persona</th>
                   <th className={numero}>Pagato</th>
-                  <th className={numero}>Da pagare</th>
+                  {futuro && <th className={numero}>Da pagare</th>}
                   <th className={numero}>In ritardo</th>
-                  <th className={cella}>Prossima scadenza</th>
+                  {futuro && <th className={cella}>Prossima scadenza</th>}
                 </tr>
               </thead>
               <tbody>
@@ -124,13 +127,15 @@ export default function Report() {
                         {p.categoria && <span className="text-slate-500"> · {p.categoria}</span>}
                       </td>
                       <td className={numero}>{euro(s.totalePagato)}</td>
-                      <td className={numero}>{euro(s.daPagareOra)}</td>
+                      {futuro && <td className={numero}>{euro(s.daPagareOra)}</td>}
                       <td className={numero}>{s.importoInRitardo ? euro(s.importoInRitardo) : '—'}</td>
-                      <td className={cella}>
-                        {s.prossimaScadenza
-                          ? `${dataLeggibile(s.prossimaScadenza.scadenza.dataScadenza)} · ${euro(s.prossimaScadenza.residuo)}`
-                          : '—'}
-                      </td>
+                      {futuro && (
+                        <td className={cella}>
+                          {s.prossimaScadenza
+                            ? `${dataLeggibile(s.prossimaScadenza.scadenza.dataScadenza)} · ${euro(s.prossimaScadenza.residuo)}`
+                            : '—'}
+                        </td>
+                      )}
                     </tr>
                   );
                 })}

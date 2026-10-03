@@ -143,3 +143,10 @@ export function statoPersona(
     colore: inRitardo.length > 0 ? 'rosso' : daPagareOra > 0 || parzialiAperte ? 'giallo' : 'verde',
   };
 }
+
+/**
+ * Colore da mostrare. Se le scadenze future sono nascoste (impostazione predefinita)
+ * esistono solo due stati: "In regola" (verde) e "In ritardo" (rosso).
+ */
+export const coloreMostrato = (colore: ColoreStato, mostraFuturo: boolean): ColoreStato =>
+  !mostraFuturo && colore === 'giallo' ? 'verde' : colore;

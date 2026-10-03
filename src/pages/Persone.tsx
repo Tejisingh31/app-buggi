@@ -67,7 +67,7 @@ export default function Persone() {
               aria-pressed={filtro === f.id}
               onClick={() => setFiltro(f.id)}
               className={`min-h-11 shrink-0 rounded-full border px-4 text-base font-medium ${
-                filtro === f.id ? 'border-[#0f766e] bg-[#0f766e] text-[#fff]' : 'border-slate-300 bg-white text-slate-700'
+                filtro === f.id ? 'border-(--accento) bg-(--accento) text-[#fff]' : 'border-slate-300 bg-white text-slate-700'
               }`}
             >
               {f.testo} <span className="opacity-75">{conteggio(f.id)}</span>
@@ -91,10 +91,10 @@ export default function Persone() {
             <li key={p.id}>
               {p.attivo ? (
                 <Scorrevole etichetta="Pagato" onAzione={() => apriPagamento({ personaId: p.id })}>
-                  <CartaPersona persona={p} stato={stati.get(p.id)!} valuta={dati.impostazioni.valuta} />
+                  <CartaPersona persona={p} stato={stati.get(p.id)!} valuta={dati.impostazioni.valuta} mostraFuturo={!!dati.impostazioni.mostraFuturo} />
                 </Scorrevole>
               ) : (
-                <CartaPersona persona={p} stato={stati.get(p.id)!} valuta={dati.impostazioni.valuta} />
+                <CartaPersona persona={p} stato={stati.get(p.id)!} valuta={dati.impostazioni.valuta} mostraFuturo={!!dati.impostazioni.mostraFuturo} />
               )}
             </li>
           ))}

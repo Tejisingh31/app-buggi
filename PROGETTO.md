@@ -171,6 +171,11 @@ Alla fine di ogni fase: `npm run dev`, prova nel browser, poi passa alla success
 - [x] **Fase 9 – PIN e sicurezza.** Blocco con PIN, hash PBKDF2, blocco automatico, attese dopo errori, "Reimposta app", backup cifrato AES-GCM, verifica nessuna richiesta di rete esterna.
 - [ ] **Fase 10 – Pubblicazione.** Repository pubblico app-buggi, base '/app-buggi/', workflow GitHub Actions che pubblica dist su GitHub Pages a ogni push su main, .gitignore per file di backup.
 
+- [x] **Fase 11 – Richieste dopo la prima versione.**
+  - Di base per ogni persona solo «In regola» / «In ritardo»; scadenze e importi futuri visibili solo attivando «Mostra anche i pagamenti futuri» (Impostazioni → Cosa mostrare).
+  - Temi a colori: oltre a chiaro/scuro, scelta del colore principale (verde acqua, blu, indaco, viola, rosa, arancione, grafite).
+  - Backup automatico giornaliero: copia interna all'app (ultimi 7 giorni) alla prima apertura del giorno o dopo mezzanotte se l'app è aperta; dove il browser lo permette (Chrome/Edge su computer) anche file nella cartella scelta una volta sola (proposta Documenti → «Buggi backup», ultimi 30 file). Limite: una PWA non lavora ad app chiusa e su iPhone/Android non può scrivere file senza un tocco → resta il promemoria per il backup esterno.
+
 ## Installazione sui telefoni (dopo la Fase 10)
 
 - **iPhone:** link in Safari → Condividi → "Aggiungi alla schermata Home". Usare sempre l'icona sulla Home.

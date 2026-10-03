@@ -61,7 +61,7 @@ export default function GestorePagamenti({ children }: { children: ReactNode }) 
         type="button"
         onClick={() => apriPagamento()}
         aria-label="Registra un pagamento"
-        className="fixed right-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-20 flex h-16 w-16 items-center justify-center rounded-full bg-[#0f766e] text-[#fff] shadow-lg active:brightness-90 print:hidden"
+        className="fixed right-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-20 flex h-16 w-16 items-center justify-center rounded-full bg-(--accento) text-[#fff] shadow-lg active:brightness-90 print:hidden"
       >
         <svg viewBox="0 0 24 24" className="h-9 w-9" fill="currentColor" aria-hidden="true">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6Z" />
@@ -93,7 +93,7 @@ export default function GestorePagamenti({ children }: { children: ReactNode }) 
               <button
                 type="button"
                 onClick={annulla}
-                className="min-h-11 shrink-0 rounded-xl px-3 font-bold text-[#5eead4] active:bg-[#334155]"
+                className="min-h-11 shrink-0 rounded-xl px-3 font-bold text-(--accento-chiaro) active:bg-[#334155]"
               >
                 Annulla
               </button>
@@ -139,7 +139,7 @@ function SceltaPersona({ dati, onScelta, onChiudi }: { dati: Dati; onScelta: (id
           <ul className="divide-y divide-slate-100">
             {elenco.map((p) => {
               const s = stati.get(p.id);
-              const dovuto = s?.daPagareOra || s?.prossimaScadenza?.residuo || 0;
+              const dovuto = dati.impostazioni.mostraFuturo ? s?.daPagareOra || s?.prossimaScadenza?.residuo || 0 : s?.importoInRitardo || 0;
               return (
                 <li key={p.id}>
                   <button

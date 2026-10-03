@@ -10,8 +10,28 @@ import type { DatiCifrati } from './cifratura';
  */
 export const VERSIONE_BACKUP = 1;
 
-/** Le impostazioni nel backup: senza PIN (ogni telefono ha il suo). */
-export type ImpostazioniBackup = Omit<Impostazioni, 'id' | 'pinHash' | 'pinSale' | 'pinErrori' | 'pinBloccatoFino' | 'pinIterazioni' | 'pinProposto'>;
+/** Impostazioni che valgono solo per questo telefono: non vanno nel backup e il ripristino non le tocca (es. il PIN). */
+export const CAMPI_SOLO_TELEFONO = [
+  'id',
+  'pinHash',
+  'pinSale',
+  'pinErrori',
+  'pinBloccatoFino',
+  'pinIterazioni',
+  'pinProposto',
+  'ultimoBackupAutomatico',
+  'cartellaProposta',
+] as const satisfies readonly (keyof Impostazioni)[];
+
+/** Le impostazioni nel backup: senza PIN e senza ciò che riguarda solo questo telefono. */
+export type ImpostazioniBackup = Omit<Impostazioni, (typeof CAMPI_SOLO_TELEFONO)[number]>;
+
+/** Toglie dalle impostazioni i campi che valgono solo per questo telefono. */
+export function senzaCampiTelefono(imp: Record<string, unknown>): Record<string, unknown> {
+  const copia = { ...imp };
+  for (const campo of CAMPI_SOLO_TELEFONO) delete copia[campo];
+  return copia;
+}
 
 export interface DatiBackup {
   persone: Persona[];

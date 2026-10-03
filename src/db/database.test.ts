@@ -29,7 +29,7 @@ describe('migrazione del database', () => {
 
     const db = new BuggiDB(nome);
     await db.open();
-    expect(db.verno).toBe(3);
+    expect(db.verno).toBe(4);
     expect((await db.piani.get('p1'))?.generatoFino).toBe('2026-03-01');
     expect((await db.piani.get('p2'))?.generatoFino).toBeUndefined();
     expect(await db.persone.count()).toBe(1);

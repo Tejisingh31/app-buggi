@@ -3,7 +3,7 @@ import { leggiImpostazioni, sincronizzaScadenze } from '../db/repository';
 import type { CopiaSicurezza, Impostazioni, Pagamento, Persona, Piano, Scadenza } from '../db/tipi';
 import { decifra, type DatiCifrati } from './cifratura';
 import { creaBackup } from './exportJson';
-import { VERSIONE_BACKUP, type DatiBackup, type FileBackup } from './formato';
+import { CAMPI_SOLO_TELEFONO, senzaCampiTelefono, VERSIONE_BACKUP, type DatiBackup, type FileBackup } from './formato';
 
 export class PasswordNecessaria extends Error {
   constructor() {
@@ -57,9 +57,8 @@ function controllaDati(grezzi: unknown): DatiBackup {
     'pagamenti',
     (p) => eTesto(p.personaId) && eData(p.dataPagamento) && eCentesimi(p.importo) && eTesto(p.metodo) && eTestoOpz(p.scadenzaId),
   );
-  const impostazioni = eOggetto(grezzi.impostazioni) ? grezzi.impostazioni : {};
-  // il PIN non arriva mai da un backup
-  for (const campo of ['id', 'pinHash', 'pinSale', 'pinErrori', 'pinBloccatoFino', 'pinIterazioni', 'pinProposto']) delete impostazioni[campo];
+  // il PIN (e ciò che riguarda solo il telefono) non arriva mai da un backup
+  const impostazioni = senzaCampiTelefono(eOggetto(grezzi.impostazioni) ? grezzi.impostazioni : {});
   return { persone, piani, scadenze, pagamenti, impostazioni };
 }
 
@@ -132,15 +131,16 @@ export function anteprima(dati: DatiBackup): Anteprima {
 
 /* ---------- copie di sicurezza ---------- */
 
-const MAX_COPIE = 5;
+/** Quante copie tenere: le ultime 5 prima dei ripristini e gli ultimi 7 backup automatici (una settimana). */
+const MAX_COPIE = { sicurezza: 5, automatico: 7 } as const;
 
 /** Salva nell'app una copia di tutti i dati attuali (si può ripristinare da Impostazioni). */
-export async function salvaCopiaSicurezza(motivo: string): Promise<CopiaSicurezza> {
-  const copia: CopiaSicurezza = { id: crypto.randomUUID(), creatoIl: new Date().toISOString(), motivo, contenuto: await creaBackup() };
+export async function salvaCopiaSicurezza(motivo: string, tipo: 'sicurezza' | 'automatico' = 'sicurezza'): Promise<CopiaSicurezza> {
+  const copia: CopiaSicurezza = { id: crypto.randomUUID(), creatoIl: new Date().toISOString(), motivo, tipo, contenuto: await creaBackup() };
   await db.transaction('rw', db.copie, async () => {
     await db.copie.add(copia);
-    const vecchie = await db.copie.orderBy('creatoIl').reverse().offset(MAX_COPIE).primaryKeys();
-    await db.copie.bulkDelete(vecchie);
+    const stesse = (await db.copie.orderBy('creatoIl').reverse().toArray()).filter((c) => (c.tipo ?? 'sicurezza') === tipo);
+    await db.copie.bulkDelete(stesse.slice(MAX_COPIE[tipo]).map((c) => c.id));
   });
   return copia;
 }
@@ -173,13 +173,8 @@ export async function ripristina(dati: DatiBackup, modo: ModoRipristino): Promis
       const nuove: Impostazioni = {
         ...attuali,
         ...dati.impostazioni,
+        ...Object.fromEntries(CAMPI_SOLO_TELEFONO.map((c) => [c, attuali[c]])),
         id: 'principale',
-        pinHash: attuali.pinHash,
-        pinSale: attuali.pinSale,
-        pinErrori: attuali.pinErrori,
-        pinBloccatoFino: attuali.pinBloccatoFino,
-        pinIterazioni: attuali.pinIterazioni,
-        pinProposto: attuali.pinProposto,
         benvenutoVisto: true,
       };
       await db.impostazioni.put(nuove);

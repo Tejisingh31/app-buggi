@@ -78,6 +78,9 @@ export interface Pagamento {
 
 export type Tema = 'sistema' | 'chiaro' | 'scuro';
 
+/** Colore principale dell'app, scelto dall'utente. */
+export type Accento = 'verdeAcqua' | 'blu' | 'indaco' | 'viola' | 'rosa' | 'arancione' | 'grafite';
+
 export interface Impostazioni {
   /** c'è un solo record, con id fisso */
   id: 'principale';
@@ -102,6 +105,16 @@ export interface Impostazioni {
   pinProposto?: boolean;
   /** iterazioni PBKDF2 usate per l'hash del PIN */
   pinIterazioni?: number;
+  /** colore principale dell'app */
+  accento?: Accento;
+  /** false (predefinito) = per ogni persona solo "In regola" / "In ritardo"; true = mostra anche le scadenze future */
+  mostraFuturo?: boolean;
+  /** backup automatico giornaliero (predefinito: attivo) */
+  backupAutomatico?: boolean;
+  /** data (AAAA-MM-GG) dell'ultimo backup automatico */
+  ultimoBackupAutomatico?: DataIso;
+  /** true dopo che al primo avvio è stata proposta la cartella per i backup */
+  cartellaProposta?: boolean;
 }
 
 /** Copia di sicurezza automatica salvata nell'app prima di un ripristino (versione 3 del database). */
@@ -109,6 +122,8 @@ export interface CopiaSicurezza {
   id: string;
   creatoIl: MomentoIso;
   motivo: string;
+  /** 'automatico' = backup giornaliero; 'sicurezza' (o vuoto) = prima di un ripristino */
+  tipo?: 'automatico' | 'sicurezza';
   /** il backup completo, come nel file .json */
   contenuto: unknown;
 }

@@ -15,6 +15,8 @@ export class BuggiDB extends Dexie {
   pagamenti!: EntityTable<Pagamento, 'id'>;
   impostazioni!: EntityTable<Impostazioni, 'id'>;
   copie!: EntityTable<CopiaSicurezza, 'id'>;
+  /** valori vari da ricordare sul telefono, es. la cartella scelta per i backup (non va nei backup) */
+  archivio!: EntityTable<{ chiave: string; valore: unknown }, 'chiave'>;
 
   constructor(nome = 'buggi') {
     super(nome);
@@ -51,6 +53,11 @@ export class BuggiDB extends Dexie {
     // Versione 3 (Fase 7): nuova tabella con le copie di sicurezza automatiche. Nessun dato da convertire.
     this.version(3).stores({
       copie: 'id, creatoIl',
+    });
+
+    // Versione 4: tabella "archivio" (es. la cartella dei backup automatici). Nessun dato da convertire.
+    this.version(4).stores({
+      archivio: 'chiave',
     });
   }
 }

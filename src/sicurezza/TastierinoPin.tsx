@@ -33,8 +33,8 @@ export default function TastierinoPin({ valore, onCambia, onInvio, disabilitato,
   const premi = (cifra: string) => {
     if (!disabilitato && valore.length < MAX) onCambia(valore + cifra);
   };
-  const stileTasto =
-    'flex h-16 items-center justify-center rounded-2xl bg-white text-3xl font-semibold text-slate-900 shadow-sm active:bg-slate-200 disabled:opacity-40';
+  const base = 'flex h-16 items-center justify-center rounded-2xl text-3xl font-semibold shadow-sm disabled:opacity-40';
+  const stileTasto = `${base} bg-white text-slate-900 active:bg-slate-200`;
 
   return (
     <div className="mx-auto w-full max-w-xs">
@@ -66,7 +66,7 @@ export default function TastierinoPin({ valore, onCambia, onInvio, disabilitato,
         </button>
         <button
           type="button"
-          className={`${stileTasto} bg-[#0f766e] text-xl text-[#fff] active:bg-[#0f766e] active:brightness-90`}
+          className={`${base} bg-(--accento) text-xl text-[#fff] active:brightness-90`}
           onClick={onInvio}
           disabled={disabilitato || valore.length < 4}
         >

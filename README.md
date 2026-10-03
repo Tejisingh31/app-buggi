@@ -10,8 +10,10 @@ Funziona senza internet e **tutti i dati restano sul telefono**: nessun server, 
 - **Pagamenti in 2 tocchi**: «Pagato» → «Conferma» (importo e data già compilati), anche parziali, con «Annulla» per 5 secondi.
 - **Dashboard**: chi non ha pagato e quanto, incassi del mese, grafico degli ultimi 12 mesi.
 - **Mancanti**: scadenze da pagare divise in «in ritardo», «questa settimana», «prossime».
+- **Solo «In regola» / «In ritardo»** per ogni persona; importi e scadenze future si possono mostrare da Impostazioni → Cosa mostrare.
+- **Backup automatico ogni giorno**: copia dentro l'app (ultimi 7 giorni) e, su computer con Chrome/Edge, file nella cartella scelta (es. Documenti → «Buggi backup»).
 - **Backup** completo (anche con password), **Excel** e **report stampabile/PDF**.
-- **PIN** all'apertura, blocco automatico, tema chiaro/scuro.
+- **PIN** all'apertura, blocco automatico, tema chiaro/scuro e **colore a scelta** (verde acqua, blu, indaco, viola, rosa, arancione, grafite).
 
 ## Comandi (sul computer)
 
@@ -48,6 +50,7 @@ Prima volta:
 ## Importante sui dati
 
 - Ogni telefono ha i suoi dati: non c'è sincronizzazione.
+- Il backup automatico giornaliero sul telefono resta **dentro l'app**: protegge dagli errori, non dalla cancellazione dell'app.
 - Se cancelli l'app dalla Home o i dati del browser, **i dati si perdono**: fai il backup (Impostazioni → Esporta backup) e salvalo su iCloud, Drive o email. L'app te lo ricorda ogni 7 giorni.
 - **Cambio telefono:** vecchio telefono → Esporta backup → nuovo telefono: apri l'app → «Ripristina da backup».
 - **PIN dimenticato:** non si può recuperare. «PIN dimenticato?» → «Reimposta app» cancella i dati; poi si ripristina l'ultimo backup.

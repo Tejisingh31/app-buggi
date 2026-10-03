@@ -23,7 +23,12 @@ export default function Mancanti() {
   ricordo.mese = mese;
   const oggi = oggiIso();
 
-  const gruppi = useMemo(() => (dati ? mancanti(dati, oggi, dati.impostazioni.giorniTolleranza) : undefined), [dati, oggi]);
+  const gruppi = useMemo(() => {
+    if (!dati) return undefined;
+    const g = mancanti(dati, oggi, dati.impostazioni.giorniTolleranza);
+    // senza scadenze future si vedono solo i ritardi
+    return dati.impostazioni.mostraFuturo ? g : { ...g, questaSettimana: [], prossime: [] };
+  }, [dati, oggi]);
   if (!dati || !gruppi) return <Caricamento />;
 
   const tutte = [...gruppi.inRitardo, ...gruppi.questaSettimana, ...gruppi.prossime];
@@ -118,8 +123,8 @@ export default function Mancanti() {
 
       {tutte.length === 0 ? (
         <StatoVuoto
-          titolo="Nessun pagamento mancante"
-          testo={dati.persone.length ? 'Tutte le scadenze sono pagate. 🎉' : 'Quando aggiungerai persone e quote, qui vedrai cosa devono ancora pagare.'}
+          titolo={dati.impostazioni.mostraFuturo ? 'Nessun pagamento mancante' : 'Nessuno è in ritardo'}
+          testo={dati.persone.length ? 'Tutti sono in regola con i pagamenti. 🎉' : 'Quando aggiungerai persone e quote, qui vedrai chi è in ritardo.'}
         />
       ) : nessunaVoce ? (
         <div className="mt-4">

@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { cartellaSupportata, dimenticaCartella, leggiCartella } from '../backup/automatico';
 import { salvaFile } from '../backup/condividi';
 import { creaBackup, testoBackup } from '../backup/exportJson';
 import { creaExcel, nomeFileExcel } from '../backup/exportExcel';
@@ -12,9 +13,12 @@ import Foglio from '../components/Foglio';
 import ImportaBackup from '../components/ImportaBackup';
 import Pagina, { Caricamento } from '../components/Pagina';
 import Pulsante from '../components/Pulsante';
+import SceltaCartella from '../components/SceltaCartella';
 import StatoArchivio from '../components/StatoArchivio';
 import { aggiornaImpostazioni } from '../db/repository';
 import type { Tema } from '../db/tipi';
+import { ACCENTI } from '../hooks/useTema';
+import { dataLeggibile } from '../utils/descrizioni';
 import { useDati, type Dati } from '../hooks/useDati';
 import { vai } from '../navigazione';
 import ImpostaPin from '../sicurezza/ImpostaPin';
@@ -30,6 +34,8 @@ export default function Impostazioni() {
   return (
     <Pagina titolo="Impostazioni">
       <div className="space-y-6">
+        <SezioneVisualizzazione dati={dati} />
+        <SezioneBackupAutomatico dati={dati} />
         <SezioneBackup dati={dati} />
         <SezioneExport dati={dati} />
         <SezionePreferenze dati={dati} />
@@ -101,7 +107,7 @@ function SezioneBackup({ dati }: { dati: Dati }) {
   }
 
   return (
-    <Sezione titolo="Backup">
+    <Sezione titolo="Backup manuale">
       <p className={`text-base font-medium ${vecchio ? 'text-amber-800' : 'text-green-800'}`}>{statoBackup}</p>
       <p className="text-sm text-slate-600">
         Il backup è un file con tutti i dati. Salvalo su iCloud, Google Drive o mandalo per email: serve se cambi telefono o se l'app viene cancellata.
@@ -134,8 +140,8 @@ function SezioneBackup({ dati }: { dati: Dati }) {
 
       {copie.length > 0 && (
         <div className="pt-2">
-          <h3 className="text-base font-semibold text-slate-800">Copie di sicurezza automatiche</h3>
-          <p className="mb-2 text-sm text-slate-500">Create prima di ogni ripristino. Servono a tornare indietro se hai sbagliato.</p>
+          <h3 className="text-base font-semibold text-slate-800">Copie salvate nell’app</h3>
+          <p className="mb-2 text-sm text-slate-500">Il backup automatico di ogni giorno (ultimi 7) e le copie fatte prima di ogni ripristino. Servono a tornare indietro se hai sbagliato.</p>
           <ul className="divide-y divide-slate-100 rounded-xl border border-slate-200">
             {copie.map((c) => (
               <li key={c.id} className="flex items-center gap-2 p-2 pl-3">
@@ -244,6 +250,30 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
             { valore: 'scuro', testo: '🌙 Scuro' },
           ]}
         />
+      </div>
+      <div className="space-y-2">
+        <p className="text-base font-medium text-slate-700">Colore</p>
+        <div className="flex flex-wrap gap-3" role="radiogroup" aria-label="Colore dell'app">
+          {ACCENTI.map((a) => {
+            const scelto = (imp.accento ?? 'verdeAcqua') === a.valore;
+            return (
+              <button
+                key={a.valore}
+                type="button"
+                role="radio"
+                aria-checked={scelto}
+                aria-label={a.nome}
+                title={a.nome}
+                onClick={() => aggiornaImpostazioni({ accento: a.valore })}
+                className={`flex h-12 w-12 items-center justify-center rounded-full text-xl text-[#fff] ${scelto ? 'ring-4 ring-slate-400 ring-offset-2' : ''}`}
+                style={{ backgroundColor: a.colore }}
+              >
+                {scelto ? '✓' : ''}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-sm text-slate-500">Colore di pulsanti e titoli: {ACCENTI.find((a) => a.valore === (imp.accento ?? 'verdeAcqua'))?.nome}.</p>
       </div>
       <Campo etichetta="Valuta" per="pref-valuta" aiuto="Simbolo mostrato accanto agli importi.">
         <input
@@ -449,5 +479,104 @@ function VerificaPin({ onOk }: { onOk: () => void }) {
         }}
       />
     </div>
+  );
+}
+
+/* ---------- cosa mostrare ---------- */
+
+function SezioneVisualizzazione({ dati }: { dati: Dati }) {
+  const futuro = !!dati.impostazioni.mostraFuturo;
+  return (
+    <Sezione titolo="Cosa mostrare">
+      <label className="flex min-h-11 items-start gap-3 text-base text-slate-800">
+        <input
+          type="checkbox"
+          className="mt-0.5 h-6 w-6 shrink-0 accent-teal-700"
+          checked={futuro}
+          onChange={(e) => aggiornaImpostazioni({ mostraFuturo: e.target.checked })}
+        />
+        <span>
+          Mostra anche i pagamenti futuri
+          <span className="block text-sm text-slate-500">
+            {futuro
+              ? 'Vedi anche quanto devono pagare e quando (prossime scadenze, da incassare).'
+              : 'Ora per ogni persona vedi solo «In regola» o «In ritardo».'}
+          </span>
+        </span>
+      </label>
+    </Sezione>
+  );
+}
+
+/* ---------- backup automatico ---------- */
+
+function SezioneBackupAutomatico({ dati }: { dati: Dati }) {
+  const imp = dati.impostazioni;
+  const attivo = imp.backupAutomatico !== false;
+  const cartella = useLiveQuery(leggiCartella);
+  const supportata = cartellaSupportata();
+  const [msg, setMsg] = useState('');
+  const oggi = oggiIso();
+  const quando = !imp.ultimoBackupAutomatico
+    ? 'non ancora fatto'
+    : imp.ultimoBackupAutomatico === oggi
+      ? 'oggi'
+      : `il ${dataLeggibile(imp.ultimoBackupAutomatico)}`;
+
+  return (
+    <Sezione titolo="Backup automatico">
+      <label className="flex min-h-11 items-center gap-3 text-base text-slate-800">
+        <input
+          type="checkbox"
+          className="h-6 w-6 accent-teal-700"
+          checked={attivo}
+          onChange={(e) => aggiornaImpostazioni({ backupAutomatico: e.target.checked })}
+        />
+        Fai un backup ogni giorno da solo
+      </label>
+      {attivo && (
+        <>
+          <p className="text-base text-slate-700">Ultimo backup automatico: <strong>{quando}</strong>.</p>
+          {supportata ? (
+            cartella ? (
+              <div className="space-y-2 rounded-xl bg-slate-50 p-3">
+                <p className="text-base text-slate-800">
+                  📁 Salvato anche nella cartella <strong>«{cartella.name}»</strong> (ultimi 30 giorni).
+                </p>
+                <SceltaCartella etichetta="Cambia cartella" onFatto={(nome) => setMsg(`Backup salvato in «${nome}».`)} />
+                <Pulsante
+                  variante="leggero"
+                  largo
+                  onClick={async () => {
+                    await dimenticaCartella();
+                    setMsg('I backup automatici restano solo nell’app.');
+                  }}
+                >
+                  Non salvare più nella cartella
+                </Pulsante>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-sm text-slate-600">
+                  Scegli una cartella (consigliata: Documenti): ogni giorno Buggi ci salverà da solo il file del backup.
+                </p>
+                <SceltaCartella onFatto={(nome) => setMsg(`Backup salvato in «${nome}». Da ora ci salvo ogni giorno.`)} />
+              </div>
+            )
+          ) : (
+            <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+              Ogni giorno, alla prima apertura, Buggi salva da solo una copia <strong>dentro l'app</strong> (ultimi 7 giorni). Su telefono il
+              browser non permette di salvare file in una cartella senza un tuo tocco: per avere una copia anche fuori dal telefono usa
+              «Esporta backup» qui sotto (te lo ricordo ogni {imp.promemoriaBackupGiorni} giorni).
+            </p>
+          )}
+          {msg && (
+            <p role="status" className="rounded-xl bg-green-50 p-3 text-base text-green-900">
+              {msg}
+            </p>
+          )}
+        </>
+      )}
+    </Sezione>
   );
 }

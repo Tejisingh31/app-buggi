@@ -103,7 +103,7 @@ export default function Dashboard() {
           {/* Numeri del mese */}
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Scheda etichetta="Incassato questo mese" valore={euro(riepilogo.incassatoMese)} colore="text-green-700" />
-            <Scheda etichetta="Da incassare questo mese" valore={euro(riepilogo.daIncassareMese)} />
+            {dati.impostazioni.mostraFuturo && <Scheda etichetta="Da incassare questo mese" valore={euro(riepilogo.daIncassareMese)} />}
             <Scheda etichetta="In ritardo" valore={euro(riepilogo.importoInRitardo)} colore={riepilogo.importoInRitardo ? 'text-red-700' : undefined} />
             <Scheda
               etichetta="Persone in ritardo"
