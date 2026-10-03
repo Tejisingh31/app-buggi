@@ -7,10 +7,12 @@ type Props = {
   indietro?: string;
   /** pulsante a destra del titolo */
   azione?: ReactNode;
+  /** mostra il logo di Buggi prima del titolo */
+  logo?: boolean;
   children: ReactNode;
 };
 
-export default function Pagina({ titolo, indietro, azione, children }: Props) {
+export default function Pagina({ titolo, indietro, azione, logo, children }: Props) {
   return (
     <section className="mx-auto w-full max-w-xl px-4 pb-6">
       <header className="flex min-h-16 items-center gap-2 pt-2">
@@ -26,6 +28,7 @@ export default function Pagina({ titolo, indietro, azione, children }: Props) {
             </svg>
           </button>
         )}
+        {logo && <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="h-10 w-10 shrink-0 rounded-xl" />}
         <h1 className="min-w-0 flex-1 truncate text-2xl font-bold text-slate-900">{titolo}</h1>
         {azione}
       </header>

@@ -156,7 +156,7 @@ function Modulo({ persona, piano, valuta }: { persona: Persona; piano?: Piano; v
           />
         </Campo>
 
-        <Campo etichetta={`Importo (${valuta}) *`} per="importo" errore={errori.importo}>
+        <Campo etichetta={valuta ? `Importo (${valuta}) *` : 'Importo *'} per="importo" errore={errori.importo}>
           <input
             id="importo"
             inputMode="decimal"

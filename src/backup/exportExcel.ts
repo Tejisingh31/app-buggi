@@ -21,10 +21,10 @@ export const nomeFileExcel = (oggi: string) => `pagamenti-${oggi}.xlsx`;
  * Crea il file Excel con i fogli Persone, Quote, Scadenze, Pagamenti, Riepilogo.
  * La libreria SheetJS si carica solo quando serve.
  */
-export async function creaExcel(dati: DatiBackup, oggi: string, giorniTolleranza: number, valuta = '€'): Promise<Uint8Array> {
+export async function creaExcel(dati: DatiBackup, oggi: string, giorniTolleranza: number, valuta = ''): Promise<Uint8Array> {
   const XLSX = await import('xlsx');
   const euro = (c: number) => c / 100;
-  const formatoEuro = `#,##0.00 "${valuta.replace(/"/g, '')}"`;
+  const formatoEuro = valuta ? `#,##0.00 "${valuta.replace(/"/g, '')}"` : '#,##0.00';
   const nome = new Map(dati.persone.map((p) => [p.id, p.nome]));
   const quota = new Map(dati.piani.map((p) => [p.id, p.descrizione]));
   const stati = statiPersone(dati, oggi, giorniTolleranza);

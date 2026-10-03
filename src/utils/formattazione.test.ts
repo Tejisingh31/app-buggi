@@ -2,14 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { formattaData, formattaEuro } from './formattazione';
 
 describe('formattaEuro', () => {
-  it('usa il punto per le migliaia e la virgola per i decimali', () => {
-    expect(formattaEuro(123450)).toBe('1.234,50 €');
-    expect(formattaEuro(123456789)).toBe('1.234.567,89 €');
+  it('usa il punto per le migliaia e la virgola per i decimali, senza simbolo', () => {
+    expect(formattaEuro(123450)).toBe('1.234,50');
+    expect(formattaEuro(123456789)).toBe('1.234.567,89');
+  });
+  it('con un simbolo scelto lo mette dopo la cifra', () => {
+    expect(formattaEuro(123450, '€')).toBe('1.234,50 €');
   });
   it('gestisce importi piccoli, zero e negativi', () => {
-    expect(formattaEuro(0)).toBe('0,00 €');
-    expect(formattaEuro(5)).toBe('0,05 €');
-    expect(formattaEuro(-1050)).toBe('-10,50 €');
+    expect(formattaEuro(0)).toBe('0,00');
+    expect(formattaEuro(5)).toBe('0,05');
+    expect(formattaEuro(-1050)).toBe('-10,50');
   });
 });
 

@@ -154,9 +154,9 @@ describe('pagamenti', () => {
 
 describe('impostazioni', () => {
   it('usa i valori predefiniti e salva le modifiche', async () => {
-    expect(await repo.leggiImpostazioni()).toMatchObject({ valuta: '€', giorniTolleranza: 0, tema: 'sistema', nomeApp: 'Buggi' });
+    expect(await repo.leggiImpostazioni()).toMatchObject({ valuta: '', giorniTolleranza: 0, tema: 'sistema', nomeApp: 'Buggi' });
     await repo.aggiornaImpostazioni({ giorniTolleranza: 3, categorie: ['squadra'] });
-    expect(await repo.leggiImpostazioni()).toMatchObject({ giorniTolleranza: 3, categorie: ['squadra'], valuta: '€' });
+    expect(await repo.leggiImpostazioni()).toMatchObject({ giorniTolleranza: 3, categorie: ['squadra'], valuta: '' });
     await expect(repo.aggiornaImpostazioni({ giorniTolleranza: -1 })).rejects.toThrow('tolleranza');
   });
 });

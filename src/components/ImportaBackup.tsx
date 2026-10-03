@@ -166,7 +166,7 @@ export default function ImportaBackup({ etichetta, variante = 'secondario', solo
 
 function Riepilogo({ letto }: { letto: BackupLetto }) {
   const a = anteprima(letto.dati);
-  const valuta = letto.dati.impostazioni.valuta ?? '€';
+  const valuta = letto.dati.impostazioni.valuta ?? '';
   const righe: [string, string][] = [
     ['Creato il', letto.creatoIl ? new Date(letto.creatoIl).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' }) : '—'],
     ['Persone', String(a.persone)],

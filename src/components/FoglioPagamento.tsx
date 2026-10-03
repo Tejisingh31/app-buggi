@@ -124,7 +124,7 @@ export default function FoglioPagamento({ dati, personaId, scadenzaId, onChiudi,
   return (
     <Foglio titolo={`Pagamento di ${persona.nome}`} onChiudi={onChiudi}>
       <form onSubmit={conferma} className="space-y-4" noValidate>
-        <Campo etichetta={`Importo (${valuta})`} per="pag-importo" errore={errore}>
+        <Campo etichetta={valuta ? `Importo (${valuta})` : 'Importo'} per="pag-importo" errore={errore}>
           <input
             id="pag-importo"
             inputMode="decimal"

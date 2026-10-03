@@ -1,6 +1,6 @@
 /**
  * Tipi dei dati salvati sul telefono.
- * - Importi: sempre in centesimi (numeri interi). 12,50 € = 1250.
+ * - Importi: sempre in centesimi (numeri interi). 12,50 = 1250.
  * - Date "di calendario" (scadenze, pagamenti): testo "AAAA-MM-GG".
  * - Momenti (creatoIl, modificatoIl): testo ISO completo.
  * Lo stato dei pagamenti NON si salva: si calcola in src/logic/stato.ts.
@@ -130,7 +130,8 @@ export interface CopiaSicurezza {
 
 export const IMPOSTAZIONI_PREDEFINITE: Impostazioni = {
   id: 'principale',
-  valuta: '€',
+  /** simbolo mostrato dopo gli importi; vuoto = solo la cifra (predefinito) */
+  valuta: '',
   giorniTolleranza: 0,
   tema: 'sistema',
   nomeApp: 'Buggi',

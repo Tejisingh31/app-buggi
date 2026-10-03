@@ -1,12 +1,13 @@
-/** Formatta un importo in centesimi come "1.234,50 €". */
-export function formattaEuro(centesimi: number, simbolo = '€'): string {
+/** Formatta un importo in centesimi come "1.234,50" (con un simbolo, se indicato: "1.234,50 €"). */
+export function formattaEuro(centesimi: number, simbolo = ''): string {
   const negativo = centesimi < 0;
   const assoluto = Math.abs(Math.round(centesimi));
   const interi = Math.floor(assoluto / 100)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const decimali = (assoluto % 100).toString().padStart(2, '0');
-  return `${negativo ? '-' : ''}${interi},${decimali} ${simbolo}`;
+  const cifra = `${negativo ? '-' : ''}${interi},${decimali}`;
+  return simbolo ? `${cifra} ${simbolo}` : cifra;
 }
 
 /** Formatta una data come "20/11/2026". */

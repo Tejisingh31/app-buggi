@@ -8,7 +8,7 @@ L'utente non è un programmatore: spiega in italiano semplice cosa hai fatto e c
 ## Regole fisse
 - PWA offline: React + TypeScript + Vite + Tailwind + Dexie (IndexedDB).
 - Nessun server, nessuna chiamata di rete esterna, nessuna libreria da CDN, nessuna statistica.
-- Interfaccia e testi in italiano. Importi in centesimi (interi), mostrati come 1.234,50 €.
+- Interfaccia e testi in italiano. Importi in centesimi (interi), mostrati come 1.234,50 (solo la cifra, senza simbolo €; un simbolo si può aggiungere da Impostazioni).
 - Lo stato dei pagamenti si calcola sempre in src/logic/stato.ts, mai salvato nel database.
 - Mobile first: pulsanti min 44px, navigazione a schede in basso.
 - Ogni modifica allo schema del database = nuova versione Dexie con migrazione, senza perdere dati.

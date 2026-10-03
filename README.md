@@ -13,6 +13,7 @@ Funziona senza internet e **tutti i dati restano sul telefono**: nessun server, 
 - **Solo «In regola» / «In ritardo»** per ogni persona; importi e scadenze future si possono mostrare da Impostazioni → Cosa mostrare.
 - **Backup automatico ogni giorno**: copia dentro l'app (ultimi 7 giorni) e, su computer con Chrome/Edge, file nella cartella scelta (es. Documenti → «Buggi backup»).
 - **Backup** completo (anche con password), **Excel** e **report stampabile/PDF**.
+- Importi mostrati come semplice cifra (1.234,50), senza simbolo; un simbolo si può aggiungere da Impostazioni.
 - **PIN** all'apertura, blocco automatico, tema chiaro/scuro e **colore a scelta** (verde acqua, blu, indaco, viola, rosa, arancione, grafite).
 
 ## Comandi (sul computer)

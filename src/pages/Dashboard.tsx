@@ -35,7 +35,7 @@ export default function Dashboard() {
   const { riepilogo, ritardi, mesi } = calcoli;
 
   return (
-    <Pagina titolo={dati.impostazioni.nomeApp || 'Buggi'}>
+    <Pagina titolo={dati.impostazioni.nomeApp || 'Buggi'} logo>
       <PromemoriaBackup dati={dati} />
 
       {dati.persone.length === 0 ? (

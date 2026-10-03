@@ -59,6 +59,18 @@ export class BuggiDB extends Dexie {
     this.version(4).stores({
       archivio: 'chiave',
     });
+
+    // Versione 5: gli importi si mostrano senza simbolo € (solo la cifra). Si toglie il "€" salvato.
+    this.version(5)
+      .stores({})
+      .upgrade(async (tx) => {
+        await tx
+          .table<Impostazioni>('impostazioni')
+          .toCollection()
+          .modify((imp) => {
+            if (imp.valuta === '€') imp.valuta = '';
+          });
+      });
   }
 }
 

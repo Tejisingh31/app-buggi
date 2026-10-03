@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { BuggiDB } from './database';
 
 describe('migrazione del database', () => {
-  it('dalla versione 1 alla 2 conserva i dati e imposta generatoFino', async () => {
+  it('dalla versione 1 all’ultima conserva i dati, imposta generatoFino e toglie il simbolo €', async () => {
     const nome = 'test-migrazione';
     const v1 = new Dexie(nome);
     v1.version(1).stores({
@@ -24,12 +24,15 @@ describe('migrazione del database', () => {
       { id: 's2', pianoId: 'p1', personaId: 'u1', dataScadenza: '2026-03-01', importoDovuto: 5000 },
       { id: 's3', pianoId: 'p1', personaId: 'u1', dataScadenza: '2026-02-01', importoDovuto: 5000 },
     ]);
+    await v1.table('impostazioni').add({ id: 'principale', valuta: '€', giorniTolleranza: 2 });
     await v1.table('pagamenti').add({ id: 'g1', personaId: 'u1', scadenzaId: 's1', dataPagamento: '2026-01-02', importo: 5000, metodo: 'contanti', creatoIl: '' });
     v1.close();
 
     const db = new BuggiDB(nome);
     await db.open();
-    expect(db.verno).toBe(4);
+    expect(db.verno).toBe(5);
+    // versione 5: il simbolo € salvato viene tolto, il resto resta
+    expect(await db.impostazioni.get('principale')).toMatchObject({ valuta: '', giorniTolleranza: 2 });
     expect((await db.piani.get('p1'))?.generatoFino).toBe('2026-03-01');
     expect((await db.piani.get('p2'))?.generatoFino).toBeUndefined();
     expect(await db.persone.count()).toBe(1);

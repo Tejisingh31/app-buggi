@@ -226,7 +226,7 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
   const [nuovaCategoria, setNuovaCategoria] = useState('');
 
   const salvaValuta = () => {
-    const v = valuta.trim() || '€';
+    const v = valuta.trim();
     setValuta(v);
     if (v !== imp.valuta) void aggiornaImpostazioni({ valuta: v });
   };
@@ -275,7 +275,7 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
         </div>
         <p className="text-sm text-slate-500">Colore di pulsanti e titoli: {ACCENTI.find((a) => a.valore === (imp.accento ?? 'verdeAcqua'))?.nome}.</p>
       </div>
-      <Campo etichetta="Valuta" per="pref-valuta" aiuto="Simbolo mostrato accanto agli importi.">
+      <Campo etichetta="Simbolo dopo gli importi (facoltativo)" per="pref-valuta" aiuto="Vuoto = solo la cifra, es. 1.234,50. Puoi scrivere ad esempio € se lo vuoi vedere.">
         <input
           id="pref-valuta"
           className={`${stileInput} w-28`}
