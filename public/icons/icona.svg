@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Icona di Buggi: sorgente da cui si generano i PNG (vedi README) -->
+  <defs>
+    <linearGradient id="sfondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14b8a6"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#sfondo)"/>
+  <!-- foglio / ricevuta -->
+  <path d="M150 104h212a22 22 0 0 1 22 22v276l-32-20-32 20-32-20-32 20-32-20-32 20-32-20-32 20V126a22 22 0 0 1 22-22Z" fill="#ffffff"/>
+  <!-- righe -->
+  <rect x="180" y="150" width="152" height="18" rx="9" fill="#99f6e4"/>
+  <rect x="180" y="190" width="110" height="18" rx="9" fill="#ccfbf1"/>
+  <!-- moneta con spunta -->
+  <circle cx="256" cy="292" r="70" fill="#f59e0b"/>
+  <circle cx="256" cy="292" r="56" fill="#fbbf24"/>
+  <path d="m224 293 22 22 42-46" fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

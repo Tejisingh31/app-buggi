@@ -1,0 +1,19 @@
+node_modules
+dist
+dev-dist
+coverage
+*.local
+.env*
+
+# Mai committare backup, export o dati reali
+pagamenti-backup-*.json
+pagamenti-*.xlsx
+*.xlsx
+*backup*.json
+*.pdf
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
