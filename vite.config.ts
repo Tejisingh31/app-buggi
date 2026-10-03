@@ -53,7 +53,7 @@ export default defineConfig({
         orientation: 'portrait',
         start_url: '/app-buggi/',
         scope: '/app-buggi/',
-        background_color: '#ffffff',
+        background_color: '#15012b', // sfondo del logo: schermata di avvio su Android
         theme_color: '#6d28d9',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },

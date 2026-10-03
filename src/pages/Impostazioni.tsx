@@ -13,6 +13,7 @@ import Foglio from '../components/Foglio';
 import ImportaBackup from '../components/ImportaBackup';
 import Pagina, { Caricamento } from '../components/Pagina';
 import Pulsante from '../components/Pulsante';
+import RiattivaCartella from '../components/RiattivaCartella';
 import SceltaCartella from '../components/SceltaCartella';
 import StatoArchivio from '../components/StatoArchivio';
 import { aggiornaImpostazioni } from '../db/repository';
@@ -299,20 +300,34 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
           ))}
         </select>
       </Campo>
-      <Campo etichetta="Ricordami il backup ogni" per="pref-promemoria">
-        <select
-          id="pref-promemoria"
-          className={`${stileInput} appearance-auto`}
-          value={imp.promemoriaBackupGiorni}
-          onChange={(e) => aggiornaImpostazioni({ promemoriaBackupGiorni: Number(e.target.value) })}
-        >
-          {PROMEMORIA.map((g) => (
-            <option key={g} value={g}>
-              {g} giorni
-            </option>
-          ))}
-        </select>
-      </Campo>
+      <label className="flex min-h-11 items-start gap-3 text-base text-slate-800">
+        <input
+          type="checkbox"
+          className="mt-0.5 h-6 w-6 shrink-0 accent-teal-700"
+          checked={!!imp.promemoriaInHome}
+          onChange={(e) => aggiornaImpostazioni({ promemoriaInHome: e.target.checked })}
+        />
+        <span>
+          Ricordami in Dashboard di fare il backup
+          <span className="block text-sm text-slate-500">Di base è spento: lo stato del backup lo trovi sempre qui in Impostazioni.</span>
+        </span>
+      </label>
+      {imp.promemoriaInHome && (
+        <Campo etichetta="Se l'ultimo backup è più vecchio di" per="pref-promemoria">
+          <select
+            id="pref-promemoria"
+            className={`${stileInput} appearance-auto`}
+            value={imp.promemoriaBackupGiorni}
+            onChange={(e) => aggiornaImpostazioni({ promemoriaBackupGiorni: Number(e.target.value) })}
+          >
+            {PROMEMORIA.map((g) => (
+              <option key={g} value={g}>
+                {g} giorni
+              </option>
+            ))}
+          </select>
+        </Campo>
+      )}
 
       <div>
         <p className="text-base font-medium text-slate-700">Categorie</p>
@@ -537,6 +552,7 @@ function SezioneBackupAutomatico({ dati }: { dati: Dati }) {
       {attivo && (
         <>
           <p className="text-base text-slate-700">Ultimo backup automatico: <strong>{quando}</strong>.</p>
+          <RiattivaCartella aggiorna={imp.ultimoBackup} />
           {supportata ? (
             cartella ? (
               <div className="space-y-2 rounded-xl bg-slate-50 p-3">
@@ -567,7 +583,7 @@ function SezioneBackupAutomatico({ dati }: { dati: Dati }) {
             <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
               Ogni giorno, alla prima apertura, Buggi salva da solo una copia <strong>dentro l'app</strong> (ultimi 7 giorni). Su telefono il
               browser non permette di salvare file in una cartella senza un tuo tocco: per avere una copia anche fuori dal telefono usa
-              «Esporta backup» qui sotto (te lo ricordo ogni {imp.promemoriaBackupGiorni} giorni).
+              «Esporta backup» qui sotto ogni tanto.
             </p>
           )}
           {msg && (

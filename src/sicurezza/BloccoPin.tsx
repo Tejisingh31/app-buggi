@@ -41,7 +41,7 @@ export default function BloccoPin({ attesaIniziale, onSbloccato }: { attesaInizi
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center bg-slate-50 px-6 py-10">
-      <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="h-16 w-16 rounded-2xl" />
+      <img src={`${import.meta.env.BASE_URL}icons/logo-piccolo.png`} alt="" className="h-20 w-20 rounded-2xl" />
       <h1 className="mt-3 text-2xl font-bold text-slate-900">Buggi</h1>
       <p className="mt-1 mb-2 text-lg text-slate-700">Inserisci il PIN</p>
       <p className="mb-4 min-h-12 max-w-xs text-center text-base text-red-700" role="alert">

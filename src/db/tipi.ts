@@ -113,6 +113,8 @@ export interface Impostazioni {
   backupAutomatico?: boolean;
   /** data (AAAA-MM-GG) dell'ultimo backup automatico */
   ultimoBackupAutomatico?: DataIso;
+  /** true = mostra in Dashboard il promemoria del backup (predefinito: no, si vede solo in Impostazioni) */
+  promemoriaInHome?: boolean;
   /** true dopo che al primo avvio è stata proposta la cartella per i backup */
   cartellaProposta?: boolean;
 }

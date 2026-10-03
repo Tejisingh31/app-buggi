@@ -28,7 +28,7 @@ export default function Pagina({ titolo, indietro, azione, logo, children }: Pro
             </svg>
           </button>
         )}
-        {logo && <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="h-10 w-10 shrink-0 rounded-xl" />}
+        {logo && <img src={`${import.meta.env.BASE_URL}icons/logo-piccolo.png`} alt="" className="h-11 w-11 shrink-0 rounded-xl" />}
         <h1 className="min-w-0 flex-1 truncate text-2xl font-bold text-slate-900">{titolo}</h1>
         {azione}
       </header>

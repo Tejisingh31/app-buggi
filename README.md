@@ -63,4 +63,4 @@ Regole del progetto in `CLAUDE.md`, requisiti e fasi in `PROGETTO.md`.
 React + TypeScript + Vite + Tailwind + Dexie (IndexedDB). Importi sempre in centesimi; lo stato dei pagamenti si calcola in
 `src/logic/stato.ts` e non si salva mai. Ogni modifica allo schema del database = nuova versione Dexie con migrazione
 (`src/db/database.ts`); il backup JSON ha un campo `versione` da mantenere compatibile (`src/backup/formato.ts`).
-L'icona si modifica in `public/icons/icona.svg` (da lì si generano i PNG).
+Logo originale in `design/buggi_logo_bhindi.png`: le icone in `public/icons` si rigenerano con `design/genera-icone.mjs` (serve Chrome e playwright-core). Non mettere file in `dist`: viene ricreata a ogni build.

@@ -6,7 +6,13 @@ import { aggiornaImpostazioni } from '../db/repository';
 export default function Benvenuto() {
   return (
     <main className="mx-auto flex min-h-full max-w-xl flex-col justify-center px-6 py-10">
-      <img src={`${import.meta.env.BASE_URL}icons/icon-192.png`} alt="" className="mx-auto h-24 w-24 rounded-3xl shadow-md" />
+      <img
+        src={`${import.meta.env.BASE_URL}logo/buggi-logo.png`}
+        alt="Logo di Buggi"
+        width={768}
+        height={512}
+        className="mx-auto aspect-[3/2] w-full max-w-sm rounded-3xl shadow-lg"
+      />
       <h1 className="mt-6 text-center text-3xl font-bold text-slate-900">Benvenuto in Buggi</h1>
       <p className="mt-3 text-center text-lg text-slate-600">
         Registra chi deve pagare, quanto e quando. I dati restano solo su questo telefono.
