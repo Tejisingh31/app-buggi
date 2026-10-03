@@ -40,7 +40,7 @@ Prima volta:
    git push -u origin main
    ```
 3. Su GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. Dopo un paio di minuti l'app è su `https://TUO-UTENTE.github.io/app-buggi/`.
+4. Dopo un paio di minuti l'app è su `https://TUO-UTENTE.github.io/app-buggi/` (Buggi: https://tejisingh31.github.io/app-buggi/).
 
 ## Installazione sui telefoni
 

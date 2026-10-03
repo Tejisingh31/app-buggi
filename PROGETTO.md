@@ -169,7 +169,7 @@ Alla fine di ogni fase: `npm run dev`, prova nel browser, poi passa alla success
 - [x] **Fase 7 – Backup ed export.** JSON con versione, import con anteprima e Sostituisci/Unisci, Excel con SheetJS, report stampabile, navigator.share, promemoria 7 giorni, primo avvio "Inizia da zero / Ripristina da backup".
 - [x] **Fase 8 – Rifinitura.** Offline, icone reali, tema scuro, stati vuoti, conferme, accessibilità. Build e test senza errori.
 - [x] **Fase 9 – PIN e sicurezza.** Blocco con PIN, hash PBKDF2, blocco automatico, attese dopo errori, "Reimposta app", backup cifrato AES-GCM, verifica nessuna richiesta di rete esterna.
-- [ ] **Fase 10 – Pubblicazione.** Repository pubblico app-buggi, base '/app-buggi/', workflow GitHub Actions che pubblica dist su GitHub Pages a ogni push su main, .gitignore per file di backup.
+- [x] **Fase 10 – Pubblicazione.** Repository pubblico app-buggi, base '/app-buggi/', workflow GitHub Actions che pubblica dist su GitHub Pages a ogni push su main, .gitignore per file di backup.
 
 - [x] **Fase 11 – Richieste dopo la prima versione.**
   - Di base per ogni persona solo «In regola» / «In ritardo»; scadenze e importi futuri visibili solo attivando «Mostra anche i pagamenti futuri» (Impostazioni → Cosa mostrare).
