@@ -16,6 +16,9 @@ export const ACCENTI: { valore: Accento; nome: string; colore: string }[] = [
   { valore: 'grafite', nome: 'Grafite', colore: '#374151' },
 ];
 
+/** Colore dell'app se l'utente non ne ha scelto un altro: viola, come il logo. */
+export const ACCENTO_PREDEFINITO: Accento = 'viola';
+
 const scuroDiSistema = () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 
 function salva(chiave: string, valore: string) {
@@ -27,13 +30,13 @@ function salva(chiave: string, valore: string) {
 }
 
 /** Mette o toglie il tema scuro e imposta il colore principale. */
-export function applicaTema(tema: Tema, accento: Accento = 'verdeAcqua'): void {
+export function applicaTema(tema: Tema, accento: Accento = ACCENTO_PREDEFINITO): void {
   const scuro = tema === 'scuro' || (tema === 'sistema' && scuroDiSistema());
   const radice = document.documentElement;
   radice.classList.toggle('dark', scuro);
   if (accento === 'verdeAcqua') delete radice.dataset.accento;
   else radice.dataset.accento = accento;
-  const colore = ACCENTI.find((a) => a.valore === accento)?.colore ?? '#0f766e';
+  const colore = ACCENTI.find((a) => a.valore === accento)?.colore ?? '#6d28d9';
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', scuro ? '#0b1120' : colore);
   salva(CHIAVE, tema);
   salva(CHIAVE_ACCENTO, accento);
@@ -41,7 +44,7 @@ export function applicaTema(tema: Tema, accento: Accento = 'verdeAcqua'): void {
 
 export function temaSalvato(): { tema: Tema; accento: Accento } {
   let tema: Tema = 'sistema';
-  let accento: Accento = 'verdeAcqua';
+  let accento: Accento = ACCENTO_PREDEFINITO;
   try {
     const t = localStorage.getItem(CHIAVE);
     if (t === 'chiaro' || t === 'scuro' || t === 'sistema') tema = t;
@@ -59,7 +62,7 @@ export function useTema(tema: Tema | undefined, accento: Accento | undefined): v
 
   useEffect(() => {
     if (!tema) return;
-    const a = accento ?? 'verdeAcqua';
+    const a = accento ?? ACCENTO_PREDEFINITO;
     attuale.current = { tema, accento: a };
     applicaTema(tema, a);
     if (tema !== 'sistema') return;

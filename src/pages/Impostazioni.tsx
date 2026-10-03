@@ -17,7 +17,7 @@ import SceltaCartella from '../components/SceltaCartella';
 import StatoArchivio from '../components/StatoArchivio';
 import { aggiornaImpostazioni } from '../db/repository';
 import type { Tema } from '../db/tipi';
-import { ACCENTI } from '../hooks/useTema';
+import { ACCENTI, ACCENTO_PREDEFINITO } from '../hooks/useTema';
 import { dataLeggibile } from '../utils/descrizioni';
 import { useDati, type Dati } from '../hooks/useDati';
 import { vai } from '../navigazione';
@@ -255,7 +255,7 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
         <p className="text-base font-medium text-slate-700">Colore</p>
         <div className="flex flex-wrap gap-3" role="radiogroup" aria-label="Colore dell'app">
           {ACCENTI.map((a) => {
-            const scelto = (imp.accento ?? 'verdeAcqua') === a.valore;
+            const scelto = (imp.accento ?? ACCENTO_PREDEFINITO) === a.valore;
             return (
               <button
                 key={a.valore}
@@ -273,7 +273,7 @@ function SezionePreferenze({ dati }: { dati: Dati }) {
             );
           })}
         </div>
-        <p className="text-sm text-slate-500">Colore di pulsanti e titoli: {ACCENTI.find((a) => a.valore === (imp.accento ?? 'verdeAcqua'))?.nome}.</p>
+        <p className="text-sm text-slate-500">Colore di pulsanti e titoli: {ACCENTI.find((a) => a.valore === (imp.accento ?? ACCENTO_PREDEFINITO))?.nome}.</p>
       </div>
       <Campo etichetta="Simbolo dopo gli importi (facoltativo)" per="pref-valuta" aiuto="Vuoto = solo la cifra, es. 1.234,50. Puoi scrivere ad esempio € se lo vuoi vedere.">
         <input
